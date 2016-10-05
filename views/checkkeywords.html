@@ -1,0 +1,228 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	系统管理\ <a href="/checkkeyword">关键词审核</a>
+
+
+</div>
+<div class="container">
+
+
+
+
+	<div class="serachuserdiv ope">
+		<ul><li>
+			<form action="/checkkeyword" method="post">
+				关键词:<input type="text" name="keywords"
+						   value="{{.keywords}}">
+
+
+				<input type="submit" value="查询">
+				<span class="okflow">审核流程:已申请(代理商申请)>审核中>通过>续费</span>
+				<span class="noflow">审核流程:已申请(代理商申请)>审核中>不通过</span>
+			</form>
+		</li></ul>
+	</div>
+	<table>
+		<thead>
+		<tr>
+			<th>编号</th>
+			<th>关键词</th>
+			<th>客户名称</th>
+			<th>代理商</th>
+
+
+			<th>申请年限</th>
+			<th>申请日期</th>
+			<th>到期日期</th>
+			<th>申请到期状态</th>
+			<th>审核状态</th>
+			<th>使用状态</th>
+			<th>APP开通状态</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+
+		{{range  .pager.Items}}
+		<tr>
+			<td>{{.Id}}</td>
+
+			<td>{{.Keywords}}
+			</td>
+			<td>{{.CustomName}}
+			</td>
+			<td>{{.AgentName}}
+			</td>
+			<td>{{.ServiceYears}}
+			</td>
+
+			<td>{{dateformat .RegDatetime "2006-01-02 15:04:05"}}
+			</td>
+
+
+			<td>{{dateformat .RegPassDatetime "2006-01-02 15:04:05"}}
+			</td>
+
+
+
+			<td>{{if eq .IsPass 0}}不过期{{end}}
+				{{if eq .IsPass 1}}预注册过期{{end}}
+				{{if eq .IsPass 2}}正式注册过期{{end}}
+
+			</td>
+			<td>{{if eq .CheckStatus 0}}已申请{{end}}
+				{{if eq .CheckStatus 1}}申请中{{end}}
+				{{if eq .CheckStatus 2}}已通过{{end}}
+				{{if eq .CheckStatus 3}}未通过{{end}}
+
+			</td>
+			<td>{{if eq .IsUse 1}}已使用{{end}}
+				{{if eq .IsUse 0}}未使用{{end}}
+
+
+			</td>
+
+
+
+
+
+			<td>{{if eq .OpenApp 0}}<font color="red">未开通</font>{{end}}
+				{{if eq .OpenApp 1}}已开通{{end}}
+
+
+			</td>
+
+
+
+
+
+
+
+
+			<td>
+				<select class="checkselect" kid="{{.Id}}" keyword="{{.Keywords}}">
+
+					<option value="">--请选择--</option>
+
+
+
+
+						{{if eq .IsUse 1}}
+						{{if eq .CheckStatus 0}}
+
+
+
+						<option value="1">审核中</option>
+						{{else if eq  .CheckStatus 1}}
+
+						<option value="2">审核通过</option>
+						<option value="3">审核不通过</option>
+
+
+						<option value="5">不使用</option>
+						{{end}}
+						{{else}}
+						<option value="6">使用</option>
+						{{end}}
+
+
+
+				</select>
+
+
+
+
+			</td>
+
+
+		</tr>
+
+		{{end}}
+		</tbody>
+	</table>
+
+	<div class="pagination pagination-centered">
+		<ul>
+
+
+
+
+
+
+
+
+
+
+			<li><a href="/checkkeyword?pager.page=1&keywords={{.keywords}}">首页</a></li>
+
+
+
+
+			{{range $index,$prev:=.pager.PrevPages}}
+
+
+
+
+
+
+
+
+
+
+
+			<li><a href="/checkkeyword?pager.page={{.}}&keywords={{.keywords}}">{{.}}</a></li>
+
+
+
+
+			{{end}}
+
+
+
+
+
+
+
+
+
+			<li class="active">
+				<a href="#">{{.pager.Page}}</a>
+			</li>
+
+
+
+
+			{{range $index,$prev:=.pager.NextPages}}
+
+
+
+
+
+			<li><a href="/checkkeyword?pager.page={{.}}&keywords={{.keywords}}">{{.}}</a></li>
+
+			{{end}}
+
+
+
+
+
+
+
+
+
+			<li><a href="/checkkeyword?pager.page={{.pager.PageCount}}&keywords={{.keywords}}">尾页</a></li>
+
+		</ul>
+	</div>
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/checkkeyword.css" />
+<script type="text/javascript" src="/static/js/checkkeywords.js"></script>
+
+
+
+</body>
+</html>

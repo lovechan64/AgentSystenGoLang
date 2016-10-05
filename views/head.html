@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+<link id='theme' rel='stylesheet' href='/static/humane/themes/original.css'/>
+<script src='/static/humane/humane.js'></script>
+<script type="text/javascript" src="/static/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/static/alertframe/ymPrompt.js"></script>
+
+
+<link rel="stylesheet"  type="text/css" href="/static/alertframe/skin/simple_gray/ymPrompt.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+<script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script type="text/javascript" src="/static/js/public.js"></script>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>代理商管理系统</title>
+</head>
+<body>
+<div class="head">
+
+	<ul>
+		<li><h2>AgentSystem</h2>
+		<li class="headfunc">
+
+			<ul>
+
+				<li >欢迎:  {{.currentUser.UserName}}
+					<a id="modifypwdbtna" >修改密码</a><a   href="/exit" >退出</a>
+				</li>
+			</ul>
+
+
+		</li>
+
+	</ul>
+
+
+
+
+
+
+</div>
+<div id="menu">
+	<ul>
+		{{range $index,$roleFunctions:=.roleFunctions}}
+		<li class="m_line"><img src="/static/imgs/line1.gif"></li>
+
+		<li  onmouseover="mover({{$index}})" id="m_{{$index}}" class="m_li"><a>{{.MainFunction.FunctionName}}</a></li>
+
+
+
+		{{end}}
+
+
+
+	</ul>
+
+</div>
+
+
+
+<div class="subbox">
+	<ul class="smenu">
+		{{range $index,$roleFunctions:=.roleFunctions}}
+		<li id="s_{{$index}}" class="s_li">
+
+			{{range .SubFunctions}}
+
+
+
+			<a href="{{.FuncUrl}}">{{.FunctionName}}</a>
+			{{end}}
+		</li>
+		{{end}}
+
+
+
+	</ul>
+</div>
+
+
+<div id="modifydiv" class="modifydiv">
+	<div class="modifTop">修改密码</div>
+	<div class="modifyPasswordContent">
+		<ul>
+			<li>请输入原密码:<input type="password" id="oldpwdtext"><span id="oldpwdtexttip">您本次登录的密码</span>
+			<li>请输入新密码:<input type="password" id="newpwd"><span id="newpwdtip">新密码不少于6个字符</span>
+			<li>请确认新密码:<input type="password" id="newpwd2"><span id="newpwd2tip">确认密码不少于6个字符</span>
+			<li><input type="button" value="确认修改密码" id="modifypwdbtn"><input type="button" value="取消" id="modifypwdcancel">
+
+		</ul>
+
+
+	</div>
+	<div></div>
+
+
+
+</div>

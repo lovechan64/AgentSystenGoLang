@@ -1,0 +1,98 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	代理商管理\关键词申请
+</div>
+<div class="container">
+	<div class="searchuserdiv">
+		<div>搜索帐号:<input id="searchusertext" type="text">输入后自动搜索
+			<font color="red">[当前账号余额:￥<span id="accountspan">{{.account.Money}}</span>]
+
+
+			</font>
+
+
+			<div id="serachresult" class="searchresult"></div>
+		</div>
+
+
+	</div>
+
+
+
+	<div class="formdiv">
+		<ul>
+			<li>客户名称:<input id="customname" class="customname" type="text"></li>
+			<li>关键词:<input id="keyword" class="keyword" type="text"><span id="keywordtip"></span> </li>
+			<li>服务类别:
+
+
+
+
+
+
+				<select id="servicetype"    >
+					<option value="">---请选择--</option>
+					{{range  .serviceType}}
+
+					<option value="{{.Id}}"   >{{.ConfigTypeName}}</option>
+					{{end}}
+				</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</li>
+			<li>服务年限:<select id="serviceyear">
+				<option value="" selected="selected">--请选择--</option>
+
+
+				{{range  .nianxian}}
+
+				<option value="{{.}}"   >{{.}}年</option>
+				{{end}}
+
+
+				{{range  .youhuiType}}
+
+				<option value="id_{{.Id}}"   >{{.ConfigTypeName}}</option>
+				{{end}}
+
+
+
+
+
+
+
+
+			</select></li>
+
+			<li>价格:
+				<input class="price" id="price" readonly="readonly" type="text">
+			</li>
+			<li>
+				<input value="提交申请" id="submitkeyword"  type="button">
+			</li>
+
+
+		</ul>
+
+
+	</div>
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/keyword.css" />
+<script type="text/javascript" src="/static/js/keywords.js"></script>
+</body>
+</html>

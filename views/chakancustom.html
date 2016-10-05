@@ -1,0 +1,119 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	代理商管理\ <a href="/customlist">代理商客户管理</a>\查看客户信息
+
+
+</div>
+<div class="container">
+	<form id="cform" action="/modifycustom" method="post">
+		<div class="subtitle">基本信息</div>
+		<div class="info1">
+			<ul>
+				<li>企业名称:{{.custom.CustomName}}<input type="hidden" id="contactsList" value="contactsList"> </li>
+				<li>企业类型:{{.custom.CustomTypeName}}
+
+
+				</li>
+				<li>企业主页:{{.custom.SiteUrl}} </li>
+				<li>状态:{{if eq .custom.CustomStatus 1}} 启用{{else}}停用{{end}}</li>
+
+
+
+			</ul>
+		</div>
+		<div class="subtitle">门户信息</div>
+
+
+		<div  class="info2">
+
+			<ul>
+				<li>法人代表:{{.custom.BossName}} </li>
+				<li>注册日期:{{dateformat .custom.RegDatetime "2006-01-02 15:04:05"}} </li>
+				<li>证件类型:{{.custom.CardTypeName}}
+					<input type="hidden" name="custom.cardTypeName" >
+
+
+
+				</li>
+				<li>证件号码:{{.custom.CardNum}} </li>
+				<li>国家:{{.custom.Country}}</li>
+				<li>省份:{{.area.City.Province.Province}}
+
+
+				</li>
+
+				<li>公司传真:{{.custom.CompanyFax}} </li>
+
+				<li>城市:{{.area.City.City}}
+
+
+
+				</li>
+				<li>公司电话:{{.custom.CompanyTel}}</li>
+				<li>区:{{.area.Area}}
+
+
+
+				</li>
+				<li>公司地址:{{.custom.CompanyAddress}} </li>
+				<li></li>
+
+			</ul>
+
+			<div  >备注:<textarea readonly="readonly" name="custom.memo"    rows="2" cols="50">{{.custom.Memo}}</textarea></div>
+
+		</div>
+
+
+		<div class="info3">
+			<table>
+
+				<tbody id="addtr" >
+				{{range .contactsList}}
+
+				<th>姓名:{{.ContactName}} </th><br/>
+				<th>电话:{{.ContactTel}} </th><br/>
+				<th>传真:{{.ContactFax}} </th><br/>
+				<th>邮箱:{{.ContactEmail}} </th><br/>
+				<th>职务:{{.ContactRole}} </th><br/>
+
+
+
+
+
+				{{end}}
+
+				</tbody>
+
+			</table>
+
+
+
+
+		</div>
+		<div class="goback">
+			<input type="button" value="保存" onclick="checksave();">
+			<input type="button" value="返回" onclick="history.go(-1)">
+
+		</div>
+
+	</form>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/addcustom.css" />
+
+<script type="text/javascript" src="/static/js/My97DatePicker/WdatePicker.js"></script>
+
+</body>
+</html>

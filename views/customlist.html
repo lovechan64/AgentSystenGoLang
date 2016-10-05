@@ -1,0 +1,133 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	代理商管理\ <a href="/customlist">代理商客户管理</a>
+
+
+</div>
+<div class="container">
+
+
+
+	<div class="addCustomDiv">
+		<input type="button" id="addCustomBtn" value="添加">
+	</div>
+	<div>
+		<form action="/customlist" method="post">
+			客户名称:<input type="text" name="customsname"
+						value="{{.customsname}}">
+
+
+			<input type="submit" value="查询">
+		</form>
+
+	</div>
+	<table>
+		<thead>
+		<tr>
+			<th>编号</th>
+			<th>客户名称</th>
+			<th>法人代表</th>
+			<th>注册时间</th>
+
+
+			<th>类型</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		{{range  .pager.Items}}
+
+
+		<tr>
+			<td> {{.Id}}</td>
+
+			<td>{{.CustomName}}
+			</td>
+			<td>{{.BossName}}
+			</td>
+
+			<td>{{dateformat .RegDatetime "2006-01-02 15:04:05"}}
+			</td>
+
+
+
+
+			<td>{{.CustomTypeName}}
+			</td>
+
+
+
+
+			<td>{{if eq .CustomStatus 1}} 启用{{else}}停用{{end}}
+			</td>
+
+
+
+
+
+
+
+
+			<td>
+
+
+				<span   > <a href="/keyword_chakancustom?custom.id={{.Id}}">查看</a></span>
+
+				<span   > <a href="/keyword_modifycustom?custom.id={{.Id}}">修改</a></span>
+
+
+				<span><a href="/keyword_modifyCustomStatus?custom.id={{.Id}}&custom.customStatus={{.CustomStatus}}" >{{if eq .CustomStatus 1}} <font color="green"> 启用 </font> {{else}} <font color="red"> 停用 </font> {{end}}  </a>  </span>
+
+			</td>
+
+
+		</tr>
+		{{end}}
+		</tbody>
+	</table>
+
+	<div class="pagination pagination-centered">
+		<ul>
+			<li><a href="/customlist?pager.page=1&customsname={{$.customsname}}">首页</a></li>
+
+			{{range $index,$prev:=.pager.PrevPages}}
+
+			<li><a href="/customlist?pager.page={{.}}&customsname={{$.customsname}}">{{.}}</a></li>
+
+			{{end}}
+			<li class="active">
+				<a href="#">{{.pager.Page}}</a>
+			</li>
+
+
+
+
+
+
+
+			{{range $index,$prev:=.pager.NextPages}}
+			<li><a href="/customlist?pager.page={{.}}&customsname={{$.customsname}}">{{.}}</a></li>
+
+			{{end}}
+
+
+
+
+			<li><a href="/customlist?pager.page={{.pager.PageCount}}&customsname={{$.customsname}}">尾页</a></li>
+
+
+
+		</ul>
+	</div>
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/customlist.css" />
+<script type="text/javascript" src="/static/js/customlist.js"></script>
+
+
+</body>
+</html>

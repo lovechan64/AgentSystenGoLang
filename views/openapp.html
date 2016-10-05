@@ -1,0 +1,47 @@
+{{template "head.html" .}}
+<div class="addAppTitle">
+    <h2>开通APP</h2>
+</div>
+<div class="message">
+
+</div>
+<div class="formdiv">
+    <form action="" method="post">
+        <div>
+            <ul>
+                <input type="hidden" id="keywordsid"  name="keywords.id" value="{{.keywords.Id}}" >
+
+
+                <li>登录帐号:<input id="appUserName" type="text" name="keywords.appUserName"></li>
+                <li>登录密码:<input type="text" id="appPassword" name="keywords.appPassword"></li>
+                <li>关键字:{{.keywords.Keywords}}</li>
+                <li>企业名称:{{.keywords.CustomName}}  </li>
+                <li>价格:{{.keywords.Price}} </li>
+                <li>服务类型:{{.systemConfig.ConfigTypeName}}</li>
+
+
+            </ul>
+
+        </div>
+        <div class="clear"></div>
+        <div class="submitdiv"><input type="button" id="button" value="开通APP"></div>
+
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/static/css/openapp.css" />
+<script type="text/javascript" src="/static/js/openapp.js"></script>
+{{template "foot"}}
+</body>
+</html>

@@ -1,0 +1,35 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	代理商管理\当前帐号信息
+</div>
+<div class="container">
+	<div class="userInfo">
+		<ul>
+			<li> <b>您好！  {{.currentUser.UserName}}
+			</b>
+				您上次登录的时间    {{dateformat .currentUser.LastLoginTime "2006-01-02 15:04:05"}}
+			</li>
+			<li>
+				您当前帐号的余额:  {{.account.Money}}
+
+				<a href="/keyword_accountdetail.action">查看账号的明细</a>
+			</li>
+
+
+		</ul>
+
+
+	</div>
+
+
+
+</div>
+
+
+
+
+
+{{template "foot"}}
+
+</body>
+</html>

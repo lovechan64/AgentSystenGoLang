@@ -1,0 +1,223 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	系统配置管理\
+	{{if eq .configType 1}}<a href="/caiwutype">财务类型</a> {{end}}
+	{{if eq .configType 2}}><a href="/servicetype">服务类型</a> {{end}}
+	{{if eq .configType 3}}<a href="/serviceyears">服务年限</a> {{end}}
+	{{if eq .configType 4}}<a href="/appurl">APP地址</a> {{end}}
+	{{if eq .configType 5}}<a href="/customtype">客户类型</a> {{end}}
+	{{if eq .configType 6}}<a href="/cardtype">证件类型</a> {{end}}
+	{{if eq .configType 7}}<a href="/youhuitype">优惠类型</a> {{end}}
+
+</div>
+<div class="container">
+
+
+
+
+	<div class="modifySystemdiv addback" id="deleteSystemdiv">
+		<ul>
+			<li class="lititle">你正在进行删除操作<input type="hidden" id="deleteid"/><input type="hidden" id="deleteConfigType" value="{{.configType}}"/></li>
+
+
+
+
+			<li>是否删除【<input type="text" readonly="readonly"  id="deleteConfigName" />
+				】?</li>
+
+
+
+
+			<input type="button" id="deleteSystemConfigBtn" value="删除"/>
+			<input type="button" id="cancleDeleteSystemConfigBtn" value="取消"/>
+			</li>
+
+		</ul>
+
+
+
+
+
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+	<div class="modifySystemdiv addback" id="addSystemdiv">
+		<ul>
+			<li class="lititle">你正在进行添加操作<input type="hidden" id="addConfigType" value="{{.configType}}"/></li>
+			{{if eq .configType 7}}
+
+			<li>配置类型名称:买<input id="addConfigName1" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')"  />赠<input  onkeyup="this.value=this.value.replace(/\D/g,'')" id="addConfigName2" type="text" /></li>
+			{{else}}<li>配置类型名称:<input type="text" id="addConfigName"/></li> {{end}}
+
+			{{if eq .configType 2}}
+
+			<li>配置项值:<input id="addConfigValue" type="text" /></li>
+			</s:if>{{end}}
+			<li>是否启用:<select id="addIsStartSelect">
+				<option value="1" selected="selected">启用</option>
+				<option value="0">停用</option>
+
+			</select>
+
+
+				<input type="button" id="addSystemConfigBtn" value="保存"/>
+				<input type="button" id="cancleAddSystemConfigBtn" value="取消"/>
+			</li>
+
+		</ul>
+
+
+
+
+
+
+
+
+
+	</div>
+
+	<div class="modifySystemdiv modifyback" id="modifySystemdiv">
+		<ul>
+			<li class="lititle">你正在进行修改操作<input type="hidden" id="sid"/><input type="hidden" id="modifyConfigType" value="{{.ConfigType}}"/></li>
+
+			{{if eq .configType 7}}
+
+			<li>配置类型名称:买<input id="modifyConfigName1" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')"  />赠<input  onkeyup="this.value=this.value.replace(/\D/g,'')" id="modifyConfigName2" type="text" /></li>
+
+
+			{{else}}
+
+			<li>配置类型名称:<input type="text" id="modifyConfigName"/></li> {{end}}
+
+
+
+			{{if eq .configType 2}}
+			<li>配置项值:<input id="modifyConfigValue" type="text" /></li>
+			{{end}}
+
+			<li>是否启用:<select id="modifyIsStartSelect">
+				<option value="1" selected="selected">启用</option>
+				<option value="0">停用</option>
+
+			</select>
+
+
+				<input type="button" id="modifySystemConfigBtn" value="保存"/>
+				<input type="button" id="cancleModifySystemConfigBtn" value="取消"/>
+			</li>
+
+		</ul>
+
+
+
+
+
+
+
+
+
+	</div>
+
+
+		{{if   eq .configType 7 1 2 6 5  }}
+
+		<div class="addSystemConfig">
+			<input type="button" id="addsystemconfig" value="添加{{.configTypeName}}">
+		</div>
+
+		<table>
+			<thead>
+			<tr>
+				<th>编号</th>
+				<th>配置类型</th>
+				{{if   eq .configType 7 2 }}
+				<th>配置数值</th> {{end}}
+
+
+				<th>是否启用</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+
+
+
+			{{range .systemConfigList}}
+
+
+
+
+
+			<tr>
+				<td>{{.Id}}</td>
+				<td>{{.ConfigTypeName}}</td>
+				{{if eq $.configType 7  }}
+				<td>{{.ConfigValue}}</td>{{end}}
+
+
+				<td>{{if eq .IsStart 1}} 启用{{else}}停用{{end}}</td>
+				<td>
+			<span class="modifySystemBtn"
+				  isstart="{{.IsStart}}"
+				  sname="{{.ConfigTypeName}}"
+				  configtype="{{.ConfigType}}"
+				  configvalue="{{.ConfigValue}}"
+
+				  sid="{{.Id}}">修改</span>
+					<span
+
+							sname="{{.ConfigTypeName}}"
+
+							sid="{{.Id}}"
+							class="deleteSystemBtn">删除</span>
+
+				</td>
+
+
+			</tr>
+			{{end}}
+			</tbody>
+		</table>
+
+
+		{{else}}
+		<div class="simpleconfig">
+
+			<h3>
+				{{if eq $.configType 3}}
+
+				服务年限管理-填写最大的服务年限{{else}}
+				APPURL管理-填写制作APP的系统的URL地址
+
+				{{end}}</h3>
+			<input value="{{.systemConfig.Id}}" type="hidden" id="simpleConfigId">
+			<input type="hidden" id="configType" value="{{.ConfigType}}">
+			<ul>
+				<li>配置名称:<input value="{{.systemConfig.ConfigTypeName}}" type="text" id="simpleTypeName"></li>
+				<li>配置数值:<input value="{{.systemConfig.configValue}}" type="text" id="simpleConfigValue"></li>
+				<li><input value="保存" type="button" id="simpleBtn"></li>
+			</ul>
+		</div>
+		{{end}}
+
+</div>
+
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/systemconfig.css" />
+<script type="text/javascript" src="/static/js/systemconfig.js"></script>
+</body>
+</html>
+ 

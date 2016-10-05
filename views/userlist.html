@@ -1,0 +1,269 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	系统配置管理\<a href="/userlist">用户管理</a>
+
+</div>
+<div class="container">
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="addUserDivClass addback" id="addUserDiv">
+		<form>
+			<ul>
+				<li class="lititle">添加代理商用户信息</li>
+
+				<li>登录帐号:<input id="a_userCode" type="text"
+								name="user.userCode" /><span>*</span>
+				</li>
+
+				<li>登录名称:<input id="a_userName" type="text"
+								name="user.userName" /><span>*</span>
+				</li>
+				<li>登录密码:<input id="a_userPassword" value="123456"
+								type="password" name="user.userPassword" /><span>默认密码初始密码为123456</span>
+				</li>
+				<li>角色:
+
+					<select id="a_roleId"  name="userroleId" >
+						<option value="">---请选择--</option>
+						{{range .rolelist}}
+
+						<option value="{{.Id}}">{{.RoleName}}</option>
+						{{end}}
+					</select>
+
+				</li>
+				<li>是否启用:<select id="a_isStart" >
+					<option value="1" selected="selected">启用</option>
+					<option value="2">停用</option>
+
+				</select> <input type="button" id="addUserSubmit" value="保存" /> <input
+						type="button" id="cancleAdd" value="取消" /></li>
+
+			</ul>
+
+		</form>
+
+
+
+
+
+
+
+	</div>
+
+	<div class="addUserDivClass modifyback" id="modifyUserDiv">
+		<form>
+
+			<ul>
+				<li class="lititle">修改用户信息<input   type="hidden" id="userid"></li>
+				<li>登录帐号:<input id="m_userCode" type="text"
+								name="user.userCode" /><span>*</span>
+				</li>
+
+				<li>登录名称:<input id="m_userName" type="text"
+								name="user.userName" /><span>*</span>
+				</li>
+				<li>登录密码:<input id="m_userPassword"
+								type="password" name="user.userPassword" /><span>*</span>
+				</li>
+				<li>角色:
+
+					<select id="m_roleId"  name="userroleId" >
+						<option value="">---请选择--</option>
+						{{range .rolelist}}
+
+						<option value="{{.Id}}">{{.RoleName}}</option>
+						{{end}}
+					</select>
+					<span>*</span>
+				</li>
+				<li>是否启用:<select id="m_isStart" >
+					<option value="1" selected="selected">启用</option>
+					<option value="2">停用</option>
+					<span>*</span>
+				</select> <input type="button" id="modifyUserSubmit" value="保存" /> <input
+						type="button" id="cancleModify" value="取消" /></li>
+
+			</ul>
+		</form>
+
+
+
+
+
+
+
+
+	</div>
+
+
+	<div class="addUserDiv">
+		<input type="button" id="addUser" value="添加">
+	</div>
+	<div>
+		<form action="/userlist" method="post">
+			用户名称:<input type="text" name="uname"
+						value="{{.uname}}"> 角色:
+
+			<select    name="userroleId" >
+				<option value="">---请选择--</option>
+				{{range  .rolelist}}
+
+				<option value="{{.Id}}"    {{if eq .Id $.userroleId}}selected="selected"{{end}}>{{.RoleName}}</option>
+				{{end}}
+			</select>
+
+
+
+			是否启用:
+
+			<select  name="userisStart">
+				<option value="1"  {{if eq .userisStart 1}}selected="selected"{{end}} >启用</option>
+				<option value="2" {{if eq .userisStart 2}}selected="selected"{{end}}
+				>停用</option>
+
+			</select>
+
+
+			<input type="submit" value="查询">
+		</form>
+
+	</div>
+	<table>
+		<thead>
+		<tr>
+			<th>登录账号</th>
+			<th>用户名称</th>
+			<th>角色</th>
+			<th>创建时间</th>
+
+
+
+			<th>是否启用</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+
+
+		{{range  .pager.Items}}
+		<tr>
+
+
+			<td> {{.UserCode}}
+			</td>
+			<td>{{.UserName}}
+			</td>
+			<td>{{.Role.RoleName}}
+			</td>
+
+
+			<td>{{dateformat .CreationTime "2006-01-02 15:04:05"}}
+			</td>
+
+			<td>
+				{{if gt .IsStart 1}}停用{{else}}启用{{end}}
+			</td>
+			<td><span class="modifyUser" isstart="{{.IsStart}}"
+					  uname="{{.UserName}}"
+					  roleid="{{.Role.Id}}"
+					  ucode="{{.UserCode}}"
+					  userpassword="{{.UserPassword}}"
+					  uid="{{.Id}}"  >修改</span>
+				<span
+						uname="{{.UserName}}"
+						roleid="{{.Role.Id}}"
+						uid="{{.Id}}"
+						class="deleteUser">删除</span>
+				<span ><a href="javascript:ymPrompt.win('/yfk_useryfk?accountDetail.userId={{.Id}}',1000,500,'预付款',null,null,null,true)">预付款</a></span>
+				<span
+				><a href="javascript:ymPrompt.win('/userlist_loglist?user.id={{.Id}}',1000,500,'LOG日志',null,null,null,true)">LOG日志</a></span>
+
+			</td>
+
+
+		</tr>
+		{{end}}
+
+		</tbody>
+	</table>
+
+	<div class="pagination pagination-centered">
+
+		<ul>
+			<li><a href="/userlist?pager.page=1&userroleId={{$.userroleId}}&uname={{$.uname}}&userisStart={{$.userisStart}}">首页</a></li>
+
+
+
+
+
+
+
+			{{range $index,$prev:=.pager.PrevPages}}
+
+
+			<li><a href="/userlist?pager.page={{.}}&userroleId={{$.userroleId}}&uname={{$.uname}}&userisStart={{$.userisStart}}">{{.}}</a></li>
+
+			{{end}}
+
+
+
+
+			<li class="active">
+				<a href="#">{{.pager.Page}}</a>
+			</li>
+
+
+
+
+
+
+
+			{{range $index,$prev:=.pager.NextPages}}
+
+
+
+			<li><a href="/userlist?pager.page={{.}}&userroleId={{$.userroleId}}&uname={{$.uname}}&userisStart={{$.userisStart}}">{{.}}</a></li>
+
+
+			{{end}}
+
+
+
+
+
+
+
+
+
+
+
+
+			<li><a href="/userlist?pager.page={{.pager.PageCount}}&userroleId={{$.userroleId}}&uname={{$.uname}}&userisStart={{$.userisStart}}">尾页</a></li>
+
+		</ul>
+
+	</div>
+
+
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/userlist.css" />
+<script type="text/javascript" src="/static/js/userlist.js"></script>
+
+
+</body>
+</html>

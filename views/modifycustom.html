@@ -1,0 +1,223 @@
+{{template "head.html" .}}
+<div class="mbxnav">
+	代理商管理\ <a href="/customlist">代理商客户管理</a>\修改客户信息
+
+
+</div>
+<div class="container">
+	<form id="mform" action="/keyword_modifysavecustom" method="post">
+		<div class="subtitle">基本信息</div>
+		<div class="info1">
+			<ul>
+				<li>企业名称:<input type="hidden" id="contactsList" value="contactsList"><input value="{{.custom.CustomName}}" name="custom.customName" id="customname" type="text"></li>
+				<li>企业类型:<input type="hidden"  name="custom.id" value="{{.custom.Id}}">
+					<input type="hidden" name="custom.customTypeName" id="customtypename" >
+					<select  id="customtype"
+							 value="{{.custom.CustomType}}" name="custom.customType"  >
+
+						{{range .customTypeList}}
+
+						<option value="{{.ConfigTypeValue}}"   >{{.ConfigTypeName}}</option>
+
+
+
+						{{end}}
+
+					</select>
+
+
+
+
+
+
+
+
+
+
+				</li>
+				<li>企业主页:<input value="{{.custom.SiteUrl}}" name="custom.siteUrl" type="text"></li>
+				<li>状态:<select   name="custom.customStatus">
+					<option value="1"  {{if eq .custom.CustomStatus 1}} selected="selected"{{end}}>启用</option>
+					<option value="0"   {{if eq .custom.CustomStatus 0}} selected="selected"{{end}}>停用</option>
+
+				</select></li>
+
+
+
+			</ul>
+		</div>
+		<div class="subtitle">门户信息</div>
+
+
+		<div  class="info2">
+
+			<ul>
+				<li>法人代表:<input value="{{.custom.BossName}}" type="text" name="custom.bossName"></li>
+				<li>注册日期:<input value='{{dateformat .custom.RegDatetime "2006-01-02 15:04:05"}}' id="regdate" type="text" name="custom.regDatetime"></li>
+				<li>证件类型:
+					<input type="hidden" name="custom.cardTypeName" id="customcardtypename">
+
+
+
+
+					<select id="customcardType"  value="{{.custom.CardType}}"  name="custom.cardType"   >
+						<option value="">---请选择--</option>
+						{{range  .cardTypeList}}
+
+						<option value="{{.ConfigTypeValue}}"   >{{.ConfigTypeName}}</option>
+						{{end}}
+					</select>
+
+
+
+
+
+
+
+
+
+				</li>
+				<li>证件号码:<input value="{{.custom.CardNum}}" type="text" name="custom.cardNum"></li>
+				<li>国家:<input  value="{{.custom.Country}}" type="text" name="custom.country"></li>
+				<li>省份:
+
+
+
+
+
+					<select value="{{.custom.Province}}"  name="custom.province" id="customprovince"  >
+						<option value="">---请选择--</option>
+						{{range  .provinceList}}
+
+						<option value="{{.Id}}"   >{{.Province}}</option>
+						{{end}}
+					</select>
+
+
+
+
+
+
+				</li>
+
+				<li>公司传真:<input  value="{{.custom.CompanyFax}}" type="text" name="custom.companyFax"></li>
+
+				<li>城市:
+					<select value="{{.custom.City}}"  name="custom.city" id="customcity">
+						<option value="">--请选择--</option>
+					</select>
+
+
+				</li>
+				<li>公司电话:<input value="{{.custom.CompanyTel}}"  type="text" name="custom.companyTel"></li>
+				<li>区:
+					<select value="{{.custom.Area}}"  name="custom.area" id="customarea">
+						<option value="">--请选择--</option>
+
+
+
+
+
+
+
+
+					</select>
+
+
+				</li>
+				<li>公司地址:<input  value="{{.custom.CompanyAddress}}" type="text" name="custom.companyAddress"></li>
+				<li></li>
+
+			</ul>
+
+			<div  >备注:<textarea value="{{.custom.Memo}}"  name="custom.memo" rows="2" cols="50"></textarea></div>
+
+		</div>
+
+
+
+		<div class="subtitle"><a id="addcontact" href="javascript:addContact()">添加一个联系人</a></div>
+		<div class="info3">
+			<table>
+				<thead>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<tr>
+					<th>姓名</th>
+					<th>电话</th>
+					<th>传真</th>
+					<th>邮箱</th>
+					<th>职务</th>
+					<th>操作<input type="hidden" id="contactcount" name="contactcount" value="{{.contactcount}}">
+					</th>
+
+
+
+				</tr>
+
+				</thead>
+				<tbody id="addtr">
+
+				 {{range $index,$cotact:=.contactsList}}
+
+						<tr>
+
+							<td><input type='text' value="{{.ContactName}}" name='contactsList[{{$index}}].contactName'></td>
+							<td><input type='text' value="{{.ContactTel}}" name='contactsList[{{$index}}].contactTel'></td>
+							<td><input type='text' value="{{.ContactFax}}"  name='contactsList[{{$index}}].contactFax'></td>
+							<td><input type='text'  value="{{.ContactEmail}}" name='contactsList[{{$index}}].contactEmail'></td>
+							<td><input type='text'  value="{{.ContactRole}}" name='contactsList[{{$index}}].contactRole'></td>
+							<td onclick="delTr(this)" ><a href='javascript:void(0)'>删除</a></td>
+
+						</tr>
+
+
+					{{end}}
+
+				</tbody>
+
+			</table>
+
+
+
+
+		</div>
+		<div class="goback">
+			<input type="submit" value="保存"  >
+			<input type="button" value="返回" onclick="history.go(-1)">
+
+		</div>
+
+	</form>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{{template "foot"}}
+<link rel="stylesheet" type="text/css" href="/static/css/modifycustom.css" />
+<script type="text/javascript" src="/static/js/modifycustom.js"></script>
+<script type="text/javascript" src="/static/js/My97DatePicker/WdatePicker.js"></script>
+
+</body>
+</html>
